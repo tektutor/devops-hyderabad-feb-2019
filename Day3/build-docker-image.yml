@@ -2,15 +2,15 @@
   hosts: localhost
   tasks:
      - name: Install python package installer (pip) in Ubuntu
-       when: ansible_distribution == Ubuntu
+       when: ansible_distribution == "Ubuntu"
        apt: name=python-pip state=latest update_cache=yes
 
      - name: Install Extra Packages for Enterprise Linux (EPEL) in CentOS
-       when: ansible_distribution == CentOS
+       when: ansible_distribution == "CentOS"
        yum: name=epel-release state=latest 
 
      - name: Install python package installer (pip) in CentOS
-       when: ansible_distribution == CentOS
+       when: ansible_distribution == "CentOS"
        yum: name=python-pip state=latest 
 
      - name: Install docker-py module 
