@@ -1,0 +1,15 @@
+- name: Demonstrates building docker image via playbook
+  hosts: localhost
+  tasks:
+     - name: Install python package installer (pip)
+       apt: name=python-pip state=latest update_cache=yes
+
+     - name: Install docker-py module 
+       shell: pip install docker-py
+
+     - name: Build ansible ubuntu image
+       docker_image:
+          name: "tektutor/ansible-ubuntu"
+          dockerfile: UbuntuDockerfile
+          path: .
+          state: build

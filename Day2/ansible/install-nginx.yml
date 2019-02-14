@@ -1,0 +1,37 @@
+- name: This playbook will install nginx, configures it and deploys html 
+  hosts: all
+  vars:
+    - greeting_msg: DevOps!
+    - cm_tool: Ansible
+    - provisioner_tool: Docker
+  tasks:
+    - name: Install nginx web server in Ubuntu
+      apt: name=nginx state=latest update_cache=yes
+
+    - name: Configure nginx web server document root folder
+      copy: src=default dest=/etc/nginx/sites-available/default backup=yes
+
+    - name: Create our custom nginx document root folder
+      file: path=/var/html state=directory mode=0777
+
+    - name: Restart nginx web server
+      #service: name=nginx state=started -Due to a bug in service module this isn't working
+      shell: service nginx restart
+
+    - name: Deploy our custom html page into nginx web server
+      template: src=index.html.j2 dest=/var/html/index.html 
+
+- name: Test if nginx server is up and running
+  hosts: localhost
+  tasks:
+     - name: Access web page from ubuntu1 container
+       shell: curl http://localhost:8001
+       register: output
+
+     - debug: var=output
+
+     - name: Access web page from ubuntu2 container
+       shell: curl http://localhost:8002
+       register: output
+
+     - debug: var=output

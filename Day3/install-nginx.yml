@@ -1,0 +1,18 @@
+- name: This playbook will install nginx, configures it and deploys html 
+  hosts: all
+
+  vars_files:
+    - playbook-variables-file.yml
+
+  tasks:
+    - include: install-nginx-{{ansible_distribution}}.yml
+    - include: configure-nginx-{{ansible_distribution}}.yml
+    - include: common-tasks.yml
+
+- name: Test if nginx server is up and running
+  hosts: localhost
+  tasks:
+     - name: Access web page 
+       shell: "curl http://localhost:{{item}}"
+       register: output
+       with_sequence: start=8001 end=8004

@@ -1,0 +1,4 @@
+*.log
+*.retry
+*.class
+target/**/*

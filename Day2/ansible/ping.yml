@@ -1,0 +1,6 @@
+- name: This playbook will demonstrate the use of ping ansible module
+  hosts: ubuntu*
+  #gather_facts: false
+  tasks:
+    - name: Ping the remote machine
+      ping:

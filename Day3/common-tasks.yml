@@ -1,0 +1,9 @@
+- name: Create our custom nginx document root folder
+  file: path=/var/html state=directory mode=0777
+
+- name: Restart nginx web server
+  #service: name=nginx state=started -Due to a bug in service module this isn't working
+  shell: service nginx restart
+
+- name: Deploy our custom html page into nginx web server
+  template: src=index.html.j2 dest=/var/html/index.html 
